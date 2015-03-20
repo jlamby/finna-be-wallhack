@@ -20,13 +20,13 @@ public class ObliqueChecker extends BaseChecker {
     public boolean check(int startLine, int startRow) {
         boolean status = false;
 
-        status |= checkObliqueUpperCornerToLowerCorner(startLine, startRow);
-        status |= checkObliqueLowerCornerToUpperCorner(startLine, startRow);
+        status |= checkObliqueUpperLeftToLowerRight(startLine, startRow);
+        status |= checkObliqueUpperRightToLowerLeft(startLine, startRow);
 
         return status;
     }
 
-    boolean checkObliqueUpperCornerToLowerCorner(int startLine, int startRow) {
+    boolean checkObliqueUpperLeftToLowerRight(int startLine, int startRow) {
         List<Character> slice = new ArrayList<>();
 
         int minLineIndex = startLine;
@@ -54,7 +54,7 @@ public class ObliqueChecker extends BaseChecker {
         return checkSlice(slice);
     }
 
-    boolean checkObliqueLowerCornerToUpperCorner(int startLine, int startRow) {
+    boolean checkObliqueUpperRightToLowerLeft(int startLine, int startRow) {
         List<Character> slice = new ArrayList<>();
 
         int minLineIndex = startLine;

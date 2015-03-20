@@ -1,7 +1,6 @@
 package fr.ippon.contest.puissance4;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 import fr.ippon.contest.puissance4.checker.Checker;
@@ -16,18 +15,17 @@ import fr.ippon.contest.puissance4.checker.VerticalChecker;
  */
 public class Puissance4Impl implements Puissance4 {
 
-    private static final List<Character> AUTHORIZED_PLAYERS = Arrays.asList('J', 'R');
-    private static final Random RANDOM_GENERATOR = new Random();
+    private static final Random RANDOM_GENERATOR  = new Random();
 
-    private Checker drawChecker       = new DrawChecker(this);
-    private Checker verticalChecker   = new VerticalChecker(this);
-    private Checker horizontalChecker = new HorizontalChecker(this);
-    private Checker obliqueChecker    = new ObliqueChecker(this);
+    private Checker             drawChecker       = new DrawChecker(this);
+    private Checker             verticalChecker   = new VerticalChecker(this);
+    private Checker             horizontalChecker = new HorizontalChecker(this);
+    private Checker             obliqueChecker    = new ObliqueChecker(this);
 
-    private EtatJeu gameState;
+    private EtatJeu             gameState;
 
-    private char[][] grid = new char[GameConstants.MAX_LINES][GameConstants.MAX_ROWS];
-    private Player currentPlayer;
+    private char[][]            grid              = new char[GameConstants.MAX_LINES][GameConstants.MAX_ROWS];
+    private Player              currentPlayer;
 
     public Puissance4Impl() {
         nouveauJeu();
@@ -62,7 +60,6 @@ public class Puissance4Impl implements Puissance4 {
         validateNumberBetween(row, 0, GameConstants.MAX_ROWS);
 
         int firstAvailableLine = firstAvailableLine(row);
-
         grid[firstAvailableLine][row] = currentPlayer.value;
 
         checkGameStatus(firstAvailableLine, row);
@@ -98,12 +95,18 @@ public class Puissance4Impl implements Puissance4 {
         return grid[line][row];
     }
 
-    char retrieveRandomStartingPlayerAsChar() {
-        return retrieveRandomStartingPlayer().value;
-    }
-
     Player retrieveRandomStartingPlayer() {
         return RANDOM_GENERATOR.nextBoolean() ? Player.YELLOW : Player.RED;
+    }
+
+    Player retriveLastPlayer(char previousPlayerAsChar) {
+        Player previousPlayer = Player.valueFromChar(previousPlayerAsChar);
+
+        if (previousPlayer == Player.YELLOW) {
+            return Player.RED;
+        }
+
+        return Player.YELLOW;
     }
 
     void switchPlayer() {
@@ -130,9 +133,8 @@ public class Puissance4Impl implements Puissance4 {
     }
 
     void validatePlayer(char value) {
-        if (!AUTHORIZED_PLAYERS.contains(value)) {
-            throw new IllegalArgumentException("Invalid value. It muse be include in this subset of values : "
-                    + AUTHORIZED_PLAYERS + ", value was equal to " + value);
+        if (Player.valueFromChar(value) == null) {
+            throw new IllegalArgumentException("Invalid value.");
         }
     }
 
@@ -150,18 +152,6 @@ public class Puissance4Impl implements Puissance4 {
         }
 
         updateGameState(globalStatus);
-    }
-
-    char retriveLastPlayerAsChar(char previousPlayer) {
-        return retriveLastPlayer(previousPlayer).value;
-    }
-
-    Player retriveLastPlayer(char previousPlayer) {
-        if (previousPlayer == Player.YELLOW.value) {
-            return Player.RED;
-        }
-
-        return Player.YELLOW;
     }
 
     void checkGameStatus(int startLine, int startRow) {

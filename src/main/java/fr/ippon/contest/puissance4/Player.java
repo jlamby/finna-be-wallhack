@@ -1,6 +1,5 @@
 package fr.ippon.contest.puissance4;
 
-
 /**
  * @author jlamby
  *
@@ -27,7 +26,13 @@ public enum Player {
     abstract Player switchPlayer();
 
     public static Player valueFromChar(char value) {
-        return (value == 'J') ? YELLOW : RED;
+        for (Player player : values()) {
+            if (player.value == value) {
+                return player;
+            }
+        }
+
+        return null;
     }
 
     public final char value;

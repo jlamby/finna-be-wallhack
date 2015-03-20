@@ -2,6 +2,7 @@ package fr.ippon.contest.puissance4.checker;
 
 import java.util.List;
 
+import fr.ippon.contest.puissance4.GameConstants;
 import fr.ippon.contest.puissance4.Puissance4;
 
 /**
@@ -19,7 +20,7 @@ public abstract class BaseChecker implements Checker {
     boolean checkSlice(List<Character> slice) {
         int playerContiguousCell = 0;
 
-        for (int i = 0; i < slice.size() && playerContiguousCell != 4; i++) {
+        for (int i = 0; i < slice.size() && playerContiguousCell != GameConstants.MIN_CELL_TO_WIN; i++) {
             Character cellContent = slice.get(i);
 
             if (cellContent == game.getTour()) {
@@ -29,6 +30,6 @@ public abstract class BaseChecker implements Checker {
             }
         }
 
-        return playerContiguousCell == 4 ? true : false;
+        return playerContiguousCell == GameConstants.MIN_CELL_TO_WIN ? true : false;
     }
 }

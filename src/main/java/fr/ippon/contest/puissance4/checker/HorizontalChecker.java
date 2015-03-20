@@ -21,7 +21,7 @@ public class HorizontalChecker extends BaseChecker {
         List<Character> slice = new ArrayList<>();
 
         for (int rowIndex = 0; rowIndex < GameConstants.MAX_ROWS; rowIndex++) {
-            slice.add(game.getOccupant(startLine,rowIndex));
+            slice.add(game.getOccupant(startLine, rowIndex));
         }
 
         return checkSlice(slice);
