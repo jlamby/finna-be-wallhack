@@ -66,6 +66,10 @@ public class Puissance4Impl implements Puissance4 {
     }
 
     int firstAvailableLine(int row) {
+        if (gameState != EtatJeu.EN_COURS) {
+            throw new IllegalStateException("Game is already ended");
+        }
+
         for (int line = GameConstants.MAX_LINES - 1; line >= 0; line--) {
             char currentValue = grid[line][row];
 
